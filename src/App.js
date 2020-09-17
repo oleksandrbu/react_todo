@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from './components/Header'
+import Form from './components/Form'
+import Tasks from "./components/Tasks"
+
+const taskEndpoint = "http://localhost:5000/api/tasks";
+
+class App extends Component {
+  state = {
+    tasks: []
+  }
+
+  constructor (){
+    super();
+    setInterval(this.getTask, 50);
+  }
+
+  componentDidMount(){
+  }
+  
+  getTask = (event) => {
+    fetch(taskEndpoint)
+      .then(response => response.json())
+      .then(list => this.setState({tasks: list}))
+  }
+
+  addTask = ({ body }) => {
+    fetch(taskEndpoint, {method: 'POST', 
+          headers:  {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({name: body})});
+  }
+
+  delTask  = ({ body }) => {
+    fetch(taskEndpoint + `/${body}`, {method: 'DELETE'})
+  }
+
+  render () {
+      return (
+        <>
+          <Header />
+          <main>
+            <Form id="responseForm" nameInput="taskName" nameButton="Add" placeholder="New task" onSubmit={this.addTask} />
+            <Form id="deleteForm" nameInput="deleteId" nameButton="Delete" placeholder="Id for delete" onSubmit={this.delTask} />
+            <Tasks tasks={this.state.tasks} />
+          </main>
+        </>
+      );
+    }
 }
 
 export default App;
