@@ -7,7 +7,7 @@ class Tasks extends Component{
         return (
             <ol>
                 {
-                    this.props.tasks.map((m, i) => <Task key={i} task={m}/>)
+                    this.props.tasks.map((m, i) => <Task key={i} task={m}/* onClick={this.props.onClick} *//* onClick={this.props.onClick} *//>)
                 }
             </ol>
         );
