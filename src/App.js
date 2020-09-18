@@ -15,7 +15,7 @@ class App extends Component {
   constructor (){
     super();
     this.getTask();
-    setInterval(this.getTask, 50);
+    setInterval(this.getTask, 200);
   }
 
   componentDidMount(){
@@ -45,13 +45,13 @@ class App extends Component {
     document.querySelector('#deleteForm>input').value = id;
   }
 
-  /*patchTask = (id, complited) => {
+  patchTask = (id, complited) => {
     fetch(taskEndpoint + `/${id}`, {method: 'PATCH',
           headers:  {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({complited: complited})});
-  }*/
+          body: JSON.stringify({complited: !complited})});
+  }
 
   render () {
       return (
@@ -60,7 +60,7 @@ class App extends Component {
           <main>
             <Form id="responseForm" nameInput="taskName" nameButton="Add" placeholder="New task" onSubmit={this.addTask} />
             <Form id="deleteForm" nameInput="deleteId" nameButton="Delete" placeholder="Id for delete" onSubmit={this.delTask} />
-            <Tasks tasks={this.state.tasks} /*onClick={this.patchTask} *//* onClick={this.onClick} *//>
+            <Tasks tasks={this.state.tasks} onChange={this.patchTask} />
           </main>
         </>
       );

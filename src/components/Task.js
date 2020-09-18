@@ -1,27 +1,25 @@
 import React, { Component } from 'react';
 
 class Task extends Component{
+    state = {
+        done: this.props.task.complited
+    }
+    
+    onChangeHandler = () => {
+        const {id, complited} = this.props.task;
+        this.props.onChange(id, complited);
+        this.setState({ done: complited});
+    }
+
     render (){
-        const task = this.props.task;
-        let result;
+        const {id, name} = this.props.task;
 
-        if (task.complited){
-            result = (
-                <li id={task.id}/* onClick={this.props.onClick(task.id)}*//* onClick={this.props.onClick(task.id, task.complited)}*/>
-                    <input type="checkbox" checked />
-                    <span>{task.id}. {task.name}</span>;
-                </li>
-            )
-        } else {
-            result = (
-                <li id={task.id}/* onClick={this.props.onClick(task.id)}*//* onClick={this.props.onClick(task.id, task.complited)}*/>
-                    <input type="checkbox" />
-                    <span>{task.id}. {task.name}</span>;
-                </li>
-            )
-        }
-
-        return result;
+        return (
+            <li id={id}>
+                <input type="checkbox" defaultChecked={this.state.done} onChange={this.onChangeHandler} />
+                <span>{id}. {name}</span>;
+            </li>
+        )
     }
 }    
 
