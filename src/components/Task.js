@@ -7,8 +7,8 @@ class Task extends Component{
     
     onChangeHandler = () => {
         const {id, complited} = this.props.task;
-        this.props.onChange(id, complited);
-        this.setState({ done: complited});
+        this.props.onChange(id, !complited);
+        this.setState({ done: !complited});
     }
 
     render (){
